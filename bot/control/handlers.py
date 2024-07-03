@@ -58,7 +58,11 @@ main_menu_button = MessageHandler(filters.Text(lang_dict['main menu']), main.mai
 products_handler = MessageHandler(filters.Text(lang_dict['products']), main.products)
 dealers_handler = MessageHandler(filters.Text(lang_dict['dilers']), main.dealers)
 action_for_businessman_handler = MessageHandler(filters.Text(lang_dict['action for businessman']), businessman.terms_of_action)
+# electric
 action_for_electric_handler = MessageHandler(filters.Text(lang_dict['action for electric']), main.action_for_electric)
+terms_of_electric_handler = MessageHandler(filters.Text(lang_dict['terms of action']), electric.terms_of_action)
+prizes_handler = MessageHandler(filters.Text(lang_dict['prizes']), electric.prizes)
+
 
 handlers = [
     login_handler,
@@ -68,5 +72,8 @@ handlers = [
     action_for_businessman_handler,
     action_for_electric_handler,
     promocode_handler,
+    terms_of_electric_handler,
+    prizes_handler,
+    
     
 ]
