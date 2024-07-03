@@ -73,13 +73,13 @@ lang_dict = {
         ],
 
     "my points": [
-        "Mening ballarim 📈", 
-        "Мои баллы 📈"
+        "📈 Mening ballarim", 
+        "📈 Мои баллы"
         ],
 
     "prizes": [
-        "Sovg'alar 🎁", 
-        "Призы 🎁"
+        "🎁 Sovg'alar", 
+        "🎁 Призы"
         ],
 
     "type promocode": [
@@ -90,6 +90,12 @@ lang_dict = {
     "promocode is not valid": ["", ""],
 
     "promocode accepted successfully": ["", ""],
+
+    'your points': ["""🧮 Sizning ballaringiz""", """🧮 Ваши баллы"""],
+
+    'action results': ["""Aksiya natijalari""", """Результаты акции"""],
+
+    'top20': ["""Top 20 📊""", """Топ 20 📊"""],
 
     "": ["", ""],
 

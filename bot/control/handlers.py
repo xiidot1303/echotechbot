@@ -62,7 +62,7 @@ action_for_businessman_handler = MessageHandler(filters.Text(lang_dict['action f
 action_for_electric_handler = MessageHandler(filters.Text(lang_dict['action for electric']), main.action_for_electric)
 terms_of_electric_handler = MessageHandler(filters.Text(lang_dict['terms of action']), electric.terms_of_action)
 prizes_handler = MessageHandler(filters.Text(lang_dict['prizes']), electric.prizes)
-
+my_points_handler = MessageHandler(filters.Text(lang_dict['my points']), electric.my_points)
 
 handlers = [
     login_handler,
@@ -74,6 +74,6 @@ handlers = [
     promocode_handler,
     terms_of_electric_handler,
     prizes_handler,
-    
+    my_points_handler,
     
 ]
