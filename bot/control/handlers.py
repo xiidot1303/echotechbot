@@ -12,7 +12,7 @@ from bot.resources.strings import lang_dict
 from bot.resources.conversationList import *
 
 from bot.bot import (
-    main, login, businessman
+    main, login, businessman, electric, promocode
 )
 
 exceptions_for_filter_text = (~filters.COMMAND) & (~filters.Text(lang_dict['main menu']))
@@ -39,10 +39,26 @@ login_handler = ConversationHandler(
     name="login",
 )
 
+promocode_handler = ConversationHandler(
+    entry_points=[
+        MessageHandler(filters.Text(lang_dict['enter promocode']), electric.promocode)
+    ],
+    states={
+        GET_PROMOCODE: [
+            MessageHandler(filters.TEXT & exceptions_for_filter_text, promocode.get_promocode)
+        ],
+    }, 
+    fallbacks=[
+        CommandHandler("start", promocode.start),
+        MessageHandler(filters.Text(lang_dict['main menu']), promocode.start)
+    ]
+)
+
 main_menu_button = MessageHandler(filters.Text(lang_dict['main menu']), main.main_menu)
 products_handler = MessageHandler(filters.Text(lang_dict['products']), main.products)
 dealers_handler = MessageHandler(filters.Text(lang_dict['dilers']), main.dealers)
 action_for_businessman_handler = MessageHandler(filters.Text(lang_dict['action for businessman']), businessman.terms_of_action)
+action_for_electric_handler = MessageHandler(filters.Text(lang_dict['action for electric']), main.action_for_electric)
 
 handlers = [
     login_handler,
@@ -50,5 +66,7 @@ handlers = [
     products_handler,
     dealers_handler,
     action_for_businessman_handler,
+    action_for_electric_handler,
+    promocode_handler,
     
 ]

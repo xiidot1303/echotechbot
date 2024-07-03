@@ -7,7 +7,7 @@ from solo.admin import SingletonModelAdmin
 class Bot_userAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
         if request.user.is_superuser:
-            list_display = ['name', 'username', 'phone', 'date', 'edit_button']
+            list_display = ['name', 'username', 'phone', 'date', 'point', 'edit_button']
         else:
             list_display = ['name', 'username', 'phone', 'date']
         return list_display

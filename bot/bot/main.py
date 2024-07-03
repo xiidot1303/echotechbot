@@ -50,9 +50,9 @@ async def action_for_businessman(update: Update, context: CustomContext):
     return
 
 async def action_for_electric(update: Update, context: CustomContext):
-    words = ['enter promocode']
+    words = ['enter promocode', 'my points', 'terms of action', 'prizes']
     keyboards = [
-        await get_word(words, update)
+        await get_word(word, update)
         for word in words
         ]
     markup = await build_keyboard(update, keyboards, 2, back_button=False)

@@ -10,6 +10,10 @@ class PromoCode(models.Model):
     def __str__(self):
         return self.code
 
+    async def set_as_used(self):
+        self.used = True
+        await self.asave()
+
     @staticmethod
     def generate_code(length=10):
         characters = string.ascii_uppercase + string.digits

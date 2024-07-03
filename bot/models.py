@@ -9,6 +9,11 @@ class Bot_user(models.Model):
     phone = models.CharField(null=True, blank=True, max_length=16, default='', verbose_name='Телефон')
     lang = models.CharField(null=True, blank=True, max_length=4, verbose_name='')
     date = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True, verbose_name='Дата регистрации')
+    point = models.IntegerField(null=True, blank=True, default=0)
+
+    async def add_point(self, point):
+        self.point += point
+        await self.asave()
 
     def __str__(self) -> str:
         try:
