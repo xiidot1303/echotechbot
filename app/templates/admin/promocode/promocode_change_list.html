@@ -1,0 +1,12 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  <form method="post" action="{% url 'generate_promo_codes' %}" style="display:inline;">
+    {% csrf_token %}
+    <input type="number" name="number_of_codes" min="1" placeholder="Number of codes" style="width: 150px; margin-right: 10px;" required>
+    <input type="number" name="code_length" min="5" max="20" placeholder="Code length" style="width: 150px; margin-right: 10px;" required>
+    <button type="submit" class="button btn btn-primary">Promokod yaratish</button>
+  </form>
+  <a href="{% url 'export_promo_codes' %}" class="button btn btn-secondary" style="margin-left: 10px;">Excelga yuklash</a>
+  {{ block.super }}
+{% endblock %}
