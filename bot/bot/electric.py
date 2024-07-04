@@ -1,6 +1,7 @@
 from bot.bot import *
 from bot.bot.promocode import _to_the_getting_promocode
 import config
+from asgiref.sync import sync_to_async
 
 async def promocode(update: Update, context: CustomContext):
     # to the getting promocode
@@ -38,3 +39,39 @@ async def my_points(update: Update, context: CustomContext):
     i_top20 = InlineKeyboardButton(text=await get_word('top20', update), callback_data='top20')
     markup = InlineKeyboardMarkup([[i_top20]])
     await update_message_reply_text(update, msg, reply_markup = markup)
+
+
+async def top20(update: Update, context: CustomContext):
+    update = update.callback_query
+    if update.data == 'top20':
+        current_user = await get_user_by_update(update)
+        query_users = Bot_user.objects.filter().exclude(phone=None).order_by('-point')
+        list_users = await sync_to_async(list)(query_users.values_list('pk', flat=True))
+        top20_list = query_users[:20]
+        user_index = list_users.index(current_user.pk) + 1
+    
+        message = '⬆️ Top 20:\n\n'
+        n = 1
+        async for user in top20_list:
+            text = ''
+            if n == 1:
+                text += '1️⃣. '
+            elif n == 2:
+                text += '2️⃣. '
+            elif n == 3:
+                text += '3️⃣. '
+            else:
+                text += '{}. '.format(n)
+
+            text += '{}➖{}\n'.format(user.name, user.point)
+            if user == current_user:
+                text = '<u><b>{}</b></u>'.format(text)
+            message += text
+            n += 1
+    
+        if user_index > 20:
+            if user_index != 21:
+                message += '....\n'
+            message += '{}. {}➖{}'.format(user_index, current_user.name, user.point)
+        await update_message_reply_text(update, message)
+        await update.answer()
