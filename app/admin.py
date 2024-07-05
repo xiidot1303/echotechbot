@@ -19,5 +19,5 @@ class UserPromoCodeAdmin(admin.ModelAdmin):
 admin.site.register(PromoCode, PromoCodeAdmin)
 admin.site.register(UserPromoCode, UserPromoCodeAdmin)
 
-admin.site.site_header = 'EchoTech'
-admin.site.site_title = 'EchoTech Admin'
+admin.site.site_header = 'EcoTech'
+admin.site.site_title = 'EcoTech Admin'
