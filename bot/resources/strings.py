@@ -113,9 +113,43 @@ lang_dict = {
 
     'top20': ["""Top 20 📊""", """Топ 20 📊"""],
 
-    "": ["", ""],
+    "andijan": ["Andijon", "Андижан"],
 
-    "": ["", ""],
+    "bukhara": ["Buxoro", "Бухара"],
+
+    "fergana": ["Fargʻona", "Фергана"],
+
+    "jizzakh": ["Jizzax", "Джизак"],
+
+    "kashkadarya": ["Qashqadaryo", "Кашкадарья"],
+
+    "khorezm": ["Xorazm", "Хорезм"],
+
+    "namangan": ["Namangan", "Наманган"],
+
+    "navoiy": ["Navoiy", "Навои"],
+
+    "samarkand": ["Samarqand", "Самарканд"],
+
+    "sirdaryo": ["Sirdaryo", "Сырдарья"],
+
+    "surkhandarya": ["Surxondaryo", "Сурхандарья"],
+
+    "tashkent": ["Toshkent", "Ташкент"],
+
+    "karakalpakstan": ["Qoraqalpogʻiston", "Каракалпакстан"],
+
+    "tashkent_city": ["Toshkent shahri", "город Ташкент"],
+
+    "choose region": [
+        "Iltimos, quyidagi tugmachalar orqali viloyatingizni tanlang", 
+        "Пожалуйста, выберите свой регион с помощью кнопок ниже."
+        ],
+
+    "type address": [
+        "Manzilingizni kiriting", 
+        "Введите свой адрес"
+        ],
 
     "": ["", ""],
 

@@ -3,12 +3,30 @@ from django.core.validators import FileExtensionValidator
 
 class Bot_user(models.Model):
     user_id = models.BigIntegerField(null=True)
-    name = models.CharField(null=True, blank=True, max_length=256, default='', verbose_name='Имя')
+    name = models.CharField(null=True, blank=True, max_length=256, default='', verbose_name='Ism')
     username = models.CharField(null=True, blank=True, max_length=256, verbose_name='username')
     firstname = models.CharField(null=True, blank=True, max_length=256, verbose_name='Никнейм')
-    phone = models.CharField(null=True, blank=True, max_length=16, default='', verbose_name='Телефон')
+    phone = models.CharField(null=True, blank=True, max_length=16, default='', verbose_name='Telefon')
+    REGION_CHOICES = [
+        ('andijan', 'Andijon viloyati'),
+        ('bukhara', 'Buxoro viloyati'),
+        ('fergana', 'Farg‘ona viloyati'),
+        ('jizzakh', 'Jizzax viloyati'),
+        ('kashkadarya', 'Qashqadaryo viloyati'),
+        ('khorezm', 'Xorazm viloyati'),
+        ('namangan', 'Namangan viloyati'),
+        ('navoiy', 'Navoiy viloyati'),
+        ('samarkand', 'Samarqand viloyati'),
+        ('sirdaryo', 'Sirdaryo viloyati'),
+        ('surkhandarya', 'Surxondaryo viloyati'),
+        ('tashkent', 'Toshkent viloyati'),
+        ('karakalpakstan', 'Qoraqalpog‘iston Respublikasi'),
+        ('tashkent_city', 'Toshkent')
+    ]
+    region = models.CharField(null=True, blank=True, max_length=256, choices=REGION_CHOICES, verbose_name='Viloyat')
+    address = models.CharField(null=True, blank=True, max_length=256, verbose_name='Manzil')
     lang = models.CharField(null=True, blank=True, max_length=4, verbose_name='')
-    date = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True, verbose_name='Дата регистрации')
+    date = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True, verbose_name='Sana')
     point = models.IntegerField(null=True, blank=True, default=0)
 
     async def add_point(self, point):
@@ -22,8 +40,8 @@ class Bot_user(models.Model):
             return super().__str__()
 
     class Meta:
-        verbose_name = "Пользователь бота"
-        verbose_name_plural = "Пользователи бота"
+        verbose_name = "Bot foydalanuvchisi"
+        verbose_name_plural = "Bot foydalanuvchilari"
     
 class Message(models.Model):
     bot_users = models.ManyToManyField('bot.Bot_user', blank=True, related_name='bot_users_list', verbose_name='Пользователи бота')

@@ -1,4 +1,4 @@
-n = 9
+n = 11
 (
     GET_LANG,
     GET_NAME,
@@ -9,4 +9,6 @@ n = 9
     NAME_SETTINGS,
     PHONE_SETTINGS,
     GET_PROMOCODE,
+    GET_REGION,
+    GET_ADDRESS,
 ) = range(0, n)

@@ -1,4 +1,4 @@
-from telegram import Update
+from telegram import Update, CallbackQuery
 from telegram.ext import ContextTypes, CallbackContext, ExtBot
 from dataclasses import dataclass
 from asgiref.sync import sync_to_async

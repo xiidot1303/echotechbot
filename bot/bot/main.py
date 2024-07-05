@@ -1,5 +1,7 @@
 from bot.bot import *
 from bot.models import *
+from bot.bot.login import _to_the_getting_name
+from bot.bot.electric import electric_main_menu
 
 async def start(update: Update, context: CustomContext):
     if await is_group(update):
@@ -50,11 +52,9 @@ async def action_for_businessman(update: Update, context: CustomContext):
     return
 
 async def action_for_electric(update: Update, context: CustomContext):
-    words = ['enter promocode', 'my points', 'terms of action', 'prizes']
-    keyboards = [
-        await get_word(word, update)
-        for word in words
-        ]
-    markup = await build_keyboard(update, keyboards, 2, back_button=False)
-    text = await get_word('action for electric', update)
-    await update_message_reply_text(update, text, reply_markup=markup)
+    bot_user: Bot_user = await get_object_by_update(update)
+    # if user is not registred fully, redirect it to the getting name
+    if not bot_user.phone:
+        return await _to_the_getting_name(update, context)
+
+    await electric_main_menu(update, context)

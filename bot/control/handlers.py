@@ -24,19 +24,41 @@ login_handler = ConversationHandler(
             MessageHandler(filters.Text(lang_dict["uz_ru"]), login.get_lang),
             MessageHandler(filters.TEXT & (~filters.COMMAND), login.get_lang)
         ],
-        GET_NAME: [
-            MessageHandler(filters.TEXT & (~filters.COMMAND), login.get_name)
-        ],
-        GET_CONTACT: [
-            MessageHandler(filters.CONTACT, login.get_contact),
-            MessageHandler(filters.Text(lang_dict['back']), login.get_contact),
-            MessageHandler(filters.TEXT & (~filters.COMMAND), login.get_contact)
-        ]
     },
     fallbacks=[
         CommandHandler("start", login.start)
     ],
     name="login",
+    persistent=True
+)
+
+action_for_electric_handler = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(lang_dict['action for electric']), main.action_for_electric)],
+    states={
+        GET_NAME: [
+            MessageHandler(filters.TEXT & exceptions_for_filter_text, login.get_name)
+        ],
+        GET_CONTACT: [
+            MessageHandler(filters.CONTACT, login.get_contact),
+            MessageHandler(filters.Text(lang_dict['back']), login.get_contact),
+            MessageHandler(filters.TEXT & exceptions_for_filter_text, login.get_contact)
+        ],
+        GET_REGION: [
+            CallbackQueryHandler(login.get_region, pattern=r"^select_region")
+        ],
+        GET_ADDRESS: [
+            MessageHandler(filters.TEXT & exceptions_for_filter_text, login.get_address)
+
+        ]
+
+    },
+    fallbacks=[
+        CommandHandler("start", promocode.start),
+        MessageHandler(filters.Text(lang_dict['main menu']), promocode.start)
+    ],
+    name='action_for_electric',
+    persistent=True
+
 )
 
 promocode_handler = ConversationHandler(
@@ -51,7 +73,9 @@ promocode_handler = ConversationHandler(
     fallbacks=[
         CommandHandler("start", promocode.start),
         MessageHandler(filters.Text(lang_dict['main menu']), promocode.start)
-    ]
+    ],
+    name="promocode",
+    persistent=True
 )
 
 main_menu_button = MessageHandler(filters.Text(lang_dict['main menu']), main.main_menu)
@@ -59,7 +83,6 @@ products_handler = MessageHandler(filters.Text(lang_dict['products']), main.prod
 dealers_handler = MessageHandler(filters.Text(lang_dict['dilers']), main.dealers)
 action_for_businessman_handler = MessageHandler(filters.Text(lang_dict['action for businessman']), businessman.terms_of_action)
 # electric
-action_for_electric_handler = MessageHandler(filters.Text(lang_dict['action for electric']), main.action_for_electric)
 terms_of_electric_handler = MessageHandler(filters.Text(lang_dict['terms of action']), electric.terms_of_action)
 prizes_handler = MessageHandler(filters.Text(lang_dict['prizes']), electric.prizes)
 my_points_handler = MessageHandler(filters.Text(lang_dict['my points']), electric.my_points)

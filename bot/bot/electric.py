@@ -2,6 +2,16 @@ from bot.bot import *
 from bot.bot.promocode import _to_the_getting_promocode
 import config
 
+async def electric_main_menu(update: Update, context: CustomContext):
+    words = ['enter promocode', 'my points', 'terms of action', 'prizes']
+    keyboards = [
+        await get_word(word, update)
+        for word in words
+        ]
+    markup = await build_keyboard(update, keyboards, 2, back_button=False)
+    text = await get_word('action for electric', update)
+    await update_message_reply_text(update, text, reply_markup=markup)
+
 async def promocode(update: Update, context: CustomContext):
     # to the getting promocode
     return await _to_the_getting_promocode(update)

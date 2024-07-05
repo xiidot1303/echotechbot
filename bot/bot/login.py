@@ -1,5 +1,6 @@
 from bot.bot import *
 from app.services import *
+from bot.bot.electric import electric_main_menu as _electric_main_menu
 
 async def _to_the_select_lang(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update_message_reply_text(
@@ -33,6 +34,27 @@ async def _to_the_getting_contact(update: Update):
 
     return GET_CONTACT
 
+async def _to_the_getting_region(update: Update, context: CustomContext):
+    i_buttons = [
+        InlineKeyboardButton(
+            text=await get_word(region[0], update),
+            callback_data=f"select_region-{region[0]}"
+        )
+        for region in Bot_user.REGION_CHOICES
+    ]
+    i_buttons_split = [i_buttons[i:i + 2] for i in range(0, len(i_buttons), 2)]
+    markup = InlineKeyboardMarkup(i_buttons_split)
+    text = await get_word('choose region', update)
+    message = await update_message_reply_text(update, text, reply_markup=await reply_keyboard_remove())
+    await bot_send_message(update, context, "👇", reply_markup=markup)
+    return GET_REGION
+
+async def _to_the_getting_address(update: Update):
+    text = await get_word('type address', update)
+    markup = await build_keyboard(update, [], 2)
+    await update_message_reply_text(update, text, reply_markup=markup)
+    return GET_ADDRESS
+
 ###################################################################################
 ###################################################################################
 
@@ -50,11 +72,15 @@ async def get_lang(update: Update, context: ContextTypes.DEFAULT_TYPE):
     obj.lang = lang
     await obj.asave()
 
-    return await _to_the_getting_name(update, context)
+    # end conversation
+    await main_menu(update, context)
+    return ConversationHandler.END
+    # return await _to_the_getting_name(update, context)
 
 async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if await is_message_back(update):
-        return await _to_the_select_lang(update, context)
+        await main_menu(update, context)
+        return ConversationHandler.END
 
     obj = await get_object_by_update(update)
     obj.name = update.message.text
@@ -68,13 +94,12 @@ async def get_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if await is_message_back(update):
         return await _to_the_getting_name(update, context)
 
-    # check message type is contact, else return
-    if update.message.contact == None or not update.message.contact:
-        await update.message.reply_text(await get_word("click button leave number", update), parse_mode=ParseMode.MARKDOWN)
-        return GET_CONTACT
+    # get phone number from contact or message text
+    if c := update.message.contact:
+        phone_number = c.phone_number
+    else:
+        phone_number = update.message.text
 
-    # get phone number from message
-    phone_number = update.message.contact.phone_number
     # check phone number is registred in the past or not
     is_available = await filter_objects_sync(Bot_user, {'phone': phone_number})
     if is_available:
@@ -87,8 +112,34 @@ async def get_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
     obj.phone = phone_number
     await obj.asave()
 
-    await main_menu(update, context)
+    return await _to_the_getting_region(update, context)
+
+async def get_region(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query: CallbackQuery = update.callback_query
+    # get region from callback query data
+    data = query.data
+    *args, region = data.split('-')
+    # get bot user
+    bot_user: Bot_user = await get_object_by_update(query)
+    # set region to bot_user
+    bot_user.region = region
+    await bot_user.asave()
+    await query.answer()
+    await bot_edit_message_reply_markup(query, context, reply_markup=None)
+    return await _to_the_getting_address(query)
+
+async def get_address(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if await is_message_back(update):
+        return await _to_the_getting_region(update, context)
+    
+    address = update.message.text
+    bot_user: Bot_user = await get_object_by_update(update)
+    bot_user.address = address
+    await bot_user.asave()
+    await _electric_main_menu(update, context)
     return ConversationHandler.END
+
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return await _to_the_select_lang(update, context)
