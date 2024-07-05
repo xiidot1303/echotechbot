@@ -20,10 +20,10 @@ async def get_promocode(update: Update, context: CustomContext):
         bot_user: Bot_user = await get_object_by_update(update)
         await bot_user.add_point(10)
         # create user promocode
-        await create_user_promocode(bot_user, promocode)
+        user_promocode: UserPromoCode = await create_user_promocode(bot_user, promocode)
         
         # send successfull message to user
-        text = await get_word('promocode accepted successfully', update)
+        text = await promocode_accepted_string(update, user_promocode.id)
         await update_message_reply_text(update, text)
         await main_menu(update, context)
         return ConversationHandler.END

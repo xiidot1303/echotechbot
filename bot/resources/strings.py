@@ -87,9 +87,25 @@ lang_dict = {
         "Введите промокод, предоставленный магазином"
         ],
 
-    "promocode is not valid": ["", ""],
+    "promocode is not valid": [
+        "❌ Kiritilgan promokod mavjud emas. Iltimos, promokodingizni tekshirgan holda, qaytatdan urinib ko'ring", 
+        "❌ Упс! Похоже, что указанный вами промокод неверен. Перепроверьте и введите его еще раз."
+        ],
 
-    "promocode accepted successfully": ["", ""],
+    "promocode accepted successfully": [
+        "🥳 Tabriklaymiz! Sizning promokodingiz muvaffaqiyatli qabul qilindi.",
+        "🥳 Поздравляем! Ваш промокод успешно принят."
+        ],
+    
+    "your special id": [
+        "Bu sizning maxsus bilet raqamingiz",
+        "Вот ваш специальный идентификатор билета"
+        ],
+    
+    "use it in competition": [
+        "Ushbu bilet raqami konkursda g'olibni aniqlash uchun ishlatiladi",
+        "Это используется для определения победителя в конкурсе."
+        ],
 
     'your points': ["""🧮 Sizning ballaringiz""", """🧮 Ваши баллы"""],
 
