@@ -4,7 +4,7 @@ import config
 from asgiref.sync import sync_to_async
 
 async def electric_main_menu(update: Update, context: CustomContext):
-    words = ['enter promocode', 'my points', 'terms of action', 'prizes']
+    words = ['enter promocode', 'terms of action', 'prizes']
     keyboards = [
         await get_word(word, update)
         for word in words
