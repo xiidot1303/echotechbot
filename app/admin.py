@@ -12,8 +12,9 @@ class PromoCodeAdmin(admin.ModelAdmin):
     search_fields = ['code', 'used']
 
 class UserPromoCodeAdmin(admin.ModelAdmin):
-    list_display = ['user', 'promo_code', 'entered_at']
-    search_fields = ['user__username', 'promo_code__code']
+    list_display = ['id', 'user', 'promo_code', 'entered_at']
+    search_fields = ['user__username', 'user__name', 'user__name', 'promo_code__code', 'id']
+    list_filter = ['user']
 
 
 admin.site.register(PromoCode, PromoCodeAdmin)

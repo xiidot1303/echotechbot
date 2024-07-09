@@ -1,25 +1,58 @@
 from django.contrib import admin
 from bot.models import *
+from app.models import UserPromoCode
 from django.utils.html import format_html
 from django.urls import reverse
 from solo.admin import SingletonModelAdmin
+from django.db.models import Count
+
+class UserPromoCodeInline(admin.TabularInline):
+    model = UserPromoCode
+    extra = 0  # This removes the extra blank forms
+    readonly_fields = ['promo_code', 'entered_at', 'ticket_id']
+    def ticket_id(self, obj):
+        return obj.pk
+    ticket_id.short_description = 'Bilet raqami'
+    can_delete = False
 
 class Bot_userAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
-        if request.user.is_superuser:
-            list_display = ['name', 'username', 'phone', 'date', 'point', 'edit_button']
-        else:
-            list_display = ['name', 'username', 'phone', 'date']
+        list_display = ['name', 'phone', 'region', 'address', 'date', 'tickets']
+        # if request.user.is_superuser:
+        if True:
+            list_display.append('edit_button')
         return list_display
-    search_fields = ['name', 'username', 'phone']
-    list_filter = ['date']
+    search_fields = ['name', 'username', 'phone', 'address', 'region']
+    list_filter = ['date', 'region']
     list_display_links = None
+    sortable_by = ['date', 'tickets']
+    inlines = [UserPromoCodeInline]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.annotate(tickets_count=Count('userpromocode'))
+        return qs
+    
+    def tickets(self, obj):
+        return obj.tickets_count
+    tickets.short_description = 'Biletlar'
+    tickets.admin_order_field = 'tickets_count'
 
     def edit_button(self, obj):
         change_url = reverse('admin:bot_bot_user_change', args=[obj.id])
         return format_html('<a class="btn btn-primary" href="{}"><i class="fas fa-edit"></i></a>', change_url)
-    edit_button.short_description = 'Действие'
+    edit_button.short_description = ''
 
+    def get_fieldsets(self, request, obj):
+        if request.user.is_superuser:
+            fieldsets = super().get_fieldsets(request, obj)
+        else:
+            fieldsets = (
+                ('Asosiy', {
+                    'fields': ['name', 'username', 'phone', 'region', 'address'],
+                }),
+            )
+        return fieldsets
 
 class MesageAdmin(admin.ModelAdmin):
     list_display = ['bot_users_name', 'small_text', 'open_photo', 'open_video', 'open_file', 'date']

@@ -25,8 +25,8 @@ class PromoCode(models.Model):
 
 class UserPromoCode(models.Model):
     user = models.ForeignKey('bot.Bot_user', on_delete=models.CASCADE)
-    promo_code = models.ForeignKey(PromoCode, on_delete=models.CASCADE)
-    entered_at = models.DateTimeField(auto_now_add=True)
+    promo_code = models.ForeignKey(PromoCode, on_delete=models.CASCADE, verbose_name='Promokod')
+    entered_at = models.DateTimeField(auto_now_add=True, verbose_name='Foydalanilgan sana')
 
     class Meta:
         unique_together = ('user', 'promo_code')
