@@ -22,3 +22,8 @@ async def get_unused_promocode_by_code(code) -> PromoCode | None:
 async def create_user_promocode(bot_user: Bot_user, promocode: PromoCode) -> UserPromoCode:
     obj = await UserPromoCode.objects.acreate(user = bot_user, promo_code = promocode)
     return obj
+
+@sync_to_async
+def filter_user_promocodes_by_user(bot_user: Bot_user):
+    query = UserPromoCode.objects.filter(user = bot_user)
+    return query

@@ -1,10 +1,11 @@
 from bot.bot import *
 from bot.bot.promocode import _to_the_getting_promocode
+from app.services.promocode_service import filter_user_promocodes_by_user
 import config
 from asgiref.sync import sync_to_async
 
 async def electric_main_menu(update: Update, context: CustomContext):
-    words = ['enter promocode', 'terms of action', 'prizes']
+    words = ['enter promocode', 'my tickets', 'terms of action', 'prizes']
     keyboards = [
         await get_word(word, update)
         for word in words
@@ -38,6 +39,13 @@ async def prizes(update: Update, context: CustomContext):
         file = obj.file_ru
     await bot_send_document(update, context, document=file)
     return
+
+async def my_tickets(update: Update, context: CustomContext):
+    bot_user = await get_object_by_update(update)
+    userpromocodes = await filter_user_promocodes_by_user(bot_user)
+    text = await tickets_list_string(userpromocodes)
+    await update_message_reply_text(update, text)
+    return 
 
 async def my_points(update: Update, context: CustomContext):
     user: Bot_user = await get_user_by_update(update)

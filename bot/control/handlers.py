@@ -85,6 +85,7 @@ action_for_businessman_handler = MessageHandler(filters.Text(lang_dict['action f
 # electric
 terms_of_electric_handler = MessageHandler(filters.Text(lang_dict['terms of action']), electric.terms_of_action)
 prizes_handler = MessageHandler(filters.Text(lang_dict['prizes']), electric.prizes)
+my_tickets_handler = MessageHandler(filters.Text(lang_dict['my tickets']), electric.my_tickets)
 my_points_handler = MessageHandler(filters.Text(lang_dict['my points']), electric.my_points)
 top20_handler = CallbackQueryHandler(electric.top20, pattern='top20')
 
@@ -99,6 +100,7 @@ handlers = [
     promocode_handler,
     terms_of_electric_handler,
     prizes_handler,
+    my_tickets_handler,
     my_points_handler,
     top20_handler,
     
