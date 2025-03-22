@@ -12,3 +12,5 @@ class app(AppConfig):
     ##     os.environ['CMDLINERUNNER_RUN_ONCE'] = 'True'
     #     from app.scheduled_job.updater import jobs
     #     jobs.scheduler.start()
+    def ready(self):
+        import app.signals

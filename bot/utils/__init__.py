@@ -28,10 +28,10 @@ async def is_group(update):
     return False
 
 async def save_and_get_photo(update, context):
-    bot = context.bot
+    bot: Bot = context.bot
     photo_id = await bot.getFile(update.message.photo[-1].file_id)
     *args, file_name = str(photo_id.file_path).split('/')
-    d_photo = await photo_id.download('files/photos/{}'.format(file_name))
+    d_photo = await photo_id.download_to_drive('files/statements/{}'.format(file_name))
     return str(d_photo).replace('files/', '')
 
 async def set_last_msg_and_markup(context, msg, markup=None):

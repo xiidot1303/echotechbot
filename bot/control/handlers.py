@@ -69,6 +69,10 @@ promocode_handler = ConversationHandler(
         GET_PROMOCODE: [
             MessageHandler(filters.TEXT & exceptions_for_filter_text, promocode.get_promocode)
         ],
+        GET_PHOTO: [
+            MessageHandler(filters.PHOTO, promocode.get_photo),
+            MessageHandler(filters.Text(lang_dict['back']), promocode._to_the_getting_promocode),
+        ]
     }, 
     fallbacks=[
         CommandHandler("start", promocode.start),

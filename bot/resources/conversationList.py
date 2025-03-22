@@ -1,4 +1,4 @@
-n = 11
+n = 12
 (
     GET_LANG,
     GET_NAME,
@@ -11,4 +11,5 @@ n = 11
     GET_PROMOCODE,
     GET_REGION,
     GET_ADDRESS,
+    GET_PHOTO,
 ) = range(0, n)

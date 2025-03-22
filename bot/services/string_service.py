@@ -1,9 +1,9 @@
 from bot.services.language_service import *
 
-async def promocode_accepted_string(update, user_promocode_id):
-    text = f"{await get_word('promocode accepted successfully', update)}\n" \
-        f"{await get_word('your special id', update)}: <b>№ {user_promocode_id}</b>." \
-            f"{await get_word('use it in competition', update)}"
+async def promocode_accepted_string(user_id, user_promocode_id):
+    text = f"{await get_word('promocode accepted successfully', chat_id=user_id)}\n" \
+        f"{await get_word('your special id', chat_id=user_id)}: <b>№ {user_promocode_id}</b>." \
+            f"{await get_word('use it in competition', chat_id=user_id)}"
     return text
 
 async def tickets_list_string(userpromocodes):

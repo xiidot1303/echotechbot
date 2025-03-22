@@ -156,13 +156,25 @@ lang_dict = {
         "🎟 Мои билеты"
         ],
 
-    "": ["", ""],
+    "send photo": [
+        "📷 Tasdiqlash uchun rasm yuboring",
+        "📷 Отправьте фото для подтверждения"
+        ],
 
-    "": ["", ""],
+    "statement accepted": [
+        "☑️ Sizning arizangiz qabul qilindi va tez orada ko'rib chiqiladi.",
+        "☑️ Ваша заявка принята и скоро будет рассмотрена."
+        ], 
 
-    "": ["", ""],
+    "statement not accepted": [
+        "❌ Ushbu ariza qabul qilinmadi, iltimos, qaytadan urinib ko'ring.", 
+        "❌ Эта заявка не принята, попробуйте еще раз."
+        ],
 
-    "": ["", ""],
+    "statement canceled": [
+        "😔 Sizning arizangiz bekor qilindi. Iltimos qaytadan urinib ko'ring.", 
+        "😔 Ваша заявка отменена. Пожалуйста, попробуйте еще раз."
+        ],
 
     "": ["", ""],
 
