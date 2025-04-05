@@ -40,10 +40,14 @@ class UserPromoCode(models.Model):
         verbose_name_plural = "Foydalanilgan promokodlar"
 
 
+class Photo(models.Model):
+    file = models.FileField(upload_to='statements/', verbose_name='Rasm', null=True)
+    statement = models.ForeignKey('app.Statement', null=True, on_delete=models.CASCADE)
+
+
 class Statement(models.Model):
     bot_user = models.ForeignKey('bot.Bot_user', on_delete=models.CASCADE, verbose_name='Foydalanuvchi')
     promocode = models.OneToOneField(PromoCode, on_delete=models.CASCADE, verbose_name='Promokod')
-    photo = models.FileField(upload_to='statements/', verbose_name='Rasm', null=True)
     confirmed = models.BooleanField(default=False, verbose_name='Tasdiqlandi?')
     datetime = models.DateTimeField(auto_now_add=True, verbose_name='Sana')
 

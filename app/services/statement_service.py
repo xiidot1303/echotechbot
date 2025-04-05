@@ -1,5 +1,5 @@
 from app.services import *
-from app.models import Statement
+from app.models import Statement, Photo
 from app.services.promocode_service import *
 from bot.services import *
 from bot.services.string_service import *
@@ -30,11 +30,19 @@ async def statement_deleted(instance):
     await application.bot.send_message(bot_user.user_id, text, parse_mode='HTML')
 
 
-async def create_statement(user_id, promocode_id, photo) -> Statement | None:
+async def create_statement(user_id, promocode_id, photos) -> Statement | None:
     bot_user = await get_object_by_user_id(user_id)
     promocode = await PromoCode.objects.aget(id=promocode_id)
     try:
-        statement = await Statement.objects.acreate(bot_user=bot_user, promocode=promocode, photo=photo)
+        statement = await Statement.objects.acreate(bot_user=bot_user, promocode=promocode)
+        # create photos
+        photos_to_create = [
+            Photo(
+                file = photo,
+                statement = statement
+            ) for photo in photos
+        ]
+        await Photo.objects.abulk_create(photos_to_create)
     except IntegrityError:
         return None
 

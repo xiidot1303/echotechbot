@@ -157,9 +157,14 @@ lang_dict = {
         ],
 
     "send photo": [
-        "📷 Tasdiqlash uchun rasm yuboring",
-        "📷 Отправьте фото для подтверждения"
+        "📷 Tasdiqlash uchun rasmlar yuboring va «Tasdiqlash» tugmasini bosing",
+        "📷 Отправьте фотографии для подтверждения и нажмите кнопку «Подтвердить»."
         ],
+
+    "confirm": [
+        "✅ Tasdiqlash",
+        "✅ Подтвердить"
+    ],
 
     "statement accepted": [
         "☑️ Sizning arizangiz qabul qilindi va tez orada ko'rib chiqiladi.",

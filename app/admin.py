@@ -18,10 +18,19 @@ class UserPromoCodeAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'user__name', 'user__name', 'promo_code__code', 'id']
     list_filter = ['user']
 
+class PhotoInline(admin.TabularInline):
+    model = Photo
+
 class StatementAdmin(admin.ModelAdmin):
-    list_display = ['bot_user', 'promocode', 'photo', 'confirmed', 'datetime', 'accept_button', 'cancel_button']
+    list_display = ['bot_user', 'promocode', 'confirmed', 'datetime', 'photos_list', 'accept_button', 'cancel_button']
     search_fields = ['bot_user__username', 'bot_user__name', 'promocode__code', 'id']
     list_filter = ['confirmed', 'datetime']
+    inlines = [PhotoInline]
+
+    def photos_list(self, obj):
+        photos = obj.photo_set.all()
+        return format_html('<br>'.join([f'<a href="{photo.file.url}" target="_blank">{photo.file.name}</a>' for photo in photos]))
+    photos_list.short_description = 'Rasmlar'
 
     def accept_button(self, obj):
         if not obj.confirmed:

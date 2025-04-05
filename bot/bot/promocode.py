@@ -11,7 +11,7 @@ async def _to_the_getting_promocode(update: Update, context: CustomContext = Non
 
 async def to_the_getting_photo(update: Update):
     text = await get_word('send photo', update)
-    markup = await build_keyboard(update, [], 2, back_button=True, main_menu_button=False)
+    markup = await build_keyboard(update, [await get_word('confirm', update)], 2, back_button=True, main_menu_button=False)
     await update_message_reply_text(update, text, reply_markup=markup)
     return GET_PHOTO
 
@@ -31,12 +31,24 @@ async def get_promocode(update: Update, context: CustomContext):
 
 
 async def get_photo(update: Update, context: CustomContext):
-    # get promocode id from user_data
-    promocode_id = context.user_data.get('promocode_id')
     # get photo from message
     photo = await save_and_get_photo(update, context)
+    photos: list = context.user_data.get('photos', [])
+    photos.append(photo)
+    context.user_data['photos'] = photos
+    return
+
+
+async def confirm_photos(update: Update, context: CustomContext):
+    # get promocode id from user_data
+    promocode_id = context.user_data.get('promocode_id')
+    photos = context.user_data.get('photos', None)
+    if not photos:
+        return await to_the_getting_photo(update)
+
     # create statement
-    statement = await create_statement(update.effective_user.id, promocode_id, photo)
+    statement = await create_statement(update.effective_user.id, promocode_id, photos)
+    photos = context.user_data.pop('photos')
     if not statement:
         # send message that statement is not accepted
         text = await get_word('statement not accepted', update)

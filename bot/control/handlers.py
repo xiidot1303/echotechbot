@@ -72,6 +72,7 @@ promocode_handler = ConversationHandler(
         GET_PHOTO: [
             MessageHandler(filters.PHOTO, promocode.get_photo),
             MessageHandler(filters.Text(lang_dict['back']), promocode._to_the_getting_promocode),
+            MessageHandler(filters.Text(lang_dict['confirm']), promocode.confirm_photos)
         ]
     }, 
     fallbacks=[
